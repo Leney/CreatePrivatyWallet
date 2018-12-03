@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.github.consenlabs'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    dexOptions {
+    }
+}
+
+dependencies {
+    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation rootProject.ext.dependencies["test-junit"]
+    androidTestImplementation rootProject.ext.dependencies["test-runner"]
+    androidTestImplementation(rootProject.ext.dependencies["test-espresso"], {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    api 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
+    api 'org.bitcoinj:bitcoinj-core:0.14.3'
+
+    testImplementation 'org.mockito:mockito-core:1.+'
+    //    compile group: 'com.google.protobuf', name: 'protobuf-lite', version: '3.0.1'
+//        implementation 'com.google.protobuf:protobuf-java:3.5.1'
+    implementation rootProject.ext.dependencies["protobuf"]
+    testImplementation 'org.json:json:20171018'
+
+    implementation rootProject.ext.dependencies["protobuf"]
+}
